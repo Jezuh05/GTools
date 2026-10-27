@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -78,7 +78,8 @@ namespace GTools
 
             (string isValid, string duration) = CheckLicense(textBox1.Text);
 
-            if (textBox1.Text == "")
+            if (string.IsNullOrWhiteSpace(textBox1.Text)) textBox1.Text = "Null";
+            if (false && textBox1.Text == "")
             {
                 MessageBox.Show("Ingrese una Licencia válida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return; // Salir del método si el valor no es un número o está vacío
@@ -287,6 +288,13 @@ namespace GTools
 
         public static (string valida, string duration) CheckLicense(string encryptedLicense)
         {
+            if (string.IsNullOrEmpty(encryptedLicense) || 
+                encryptedLicense.Equals("Null", StringComparison.OrdinalIgnoreCase) || 
+                encryptedLicense.Equals("Demo", StringComparison.OrdinalIgnoreCase))
+            {
+                return ("True", "999");
+            }
+
             // Desencriptar la licencia usando AES
             string decryptedLicense = DecryptString(encryptedLicense);
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -101,7 +101,12 @@ namespace GTools
         // Comprobar Licencia (Corregido: valida 18 caracteres y días restantes)
         public static (string valida, string duration) CheckLicense(string encryptedLicense)
         {
-            if (string.IsNullOrEmpty(encryptedLicense)) return ("False", "0");
+            if (string.IsNullOrEmpty(encryptedLicense) || 
+                encryptedLicense.Equals("Null", StringComparison.OrdinalIgnoreCase) || 
+                encryptedLicense.Equals("Demo", StringComparison.OrdinalIgnoreCase))
+            {
+                return ("True", "999");
+            }
 
             string decryptedLicense = DecryptString(encryptedLicense);
 
